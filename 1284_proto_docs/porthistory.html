@@ -1,0 +1,280 @@
+
+<!-- saved from url=(0075)https://web.archive.org/web/20040811082748/http://www.fapo.com/porthist.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>Warp Nine Engineering - The IEEE 1284 Experts - Parallel Port Background</title>
+<meta name="description" content="Background information on the parallel port.">
+<meta name="abstract" content="Warp Nine Engineering&#39;s Parallel Port Background Page">
+<meta name="keywords" content="parallel port, background, history, printer port">
+
+</head>
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" >
+
+            <h1 align="left"><br>
+              <b>Parallel Port Background</b></h1>
+            <p align="left">When
+              IBM introduced the PC, in 1981, the parallel printer port was included
+              as an alternative to the slower serial port as a means for driving
+              the latest high performance dot matrix printers. The parallel port
+              had the capability to transfer 8 bits of data at time whereas the
+              serial port transmitted one bit at a time. When the PC was introduced,
+              dot matrix printers were the main peripheral that used the parallel
+              port. As technology progressed and the need for greater external
+              connectivity increased, the parallel port became the means by which
+              you could connect higher performance peripherals. These peripherals
+              now range from printer sharing devices, portable disk drives and
+              tape backup to local area network adapters and CD ROM players. </p>
+            <p align="left">The
+              problems faced by developers and customers of these peripherals
+              fall into three categories. First, although the performance of the
+              PC has increased dramatically, there has been virtually no change
+              in the parallel port performance or architecture. The maximum data
+              transfer rate achievable with this architecture is around 150 kilobytes
+              per second and is extremely software intensive. Second, there is
+              no standard for the electrical interface. This causes many problems
+              when attempting to guarantee operation across various platforms.
+              Finally, the lack of design standards forced a distance limitation
+              of only 6 feet for external cables. </p>
+            <p align="left">In
+              1991 there was a meeting of printer manufacturers to start discussions
+              on developing a new standard for the intelligent control of printers
+              over a network. These manufacturers, which included Lexmark, IBM,
+              Texas Instruments and others, formed the Network Printing Alliance.
+              The NPA defined a set of parameters that, when implemented in the
+              printer and host, will allow for the complete control of printer
+              applications and jobs. </p>
+            <p align="left">While
+              this work was in progress it became apparent that to fully implement
+              this standard would require a high performance bi-directional connection
+              to the PC. The usual means of connection, the ordinary PC parallel
+              port, did not have the capabilities required to meet the full requirements
+              or abilities of this standard. </p>
+            <p align="left">The
+              NPA submitted a proposal to the IEEE for the creation of a committee
+              to develop a new standard for a high speed bi-directional parallel
+              port for the PC. It was a requirement that this new standard would
+              remain fully compatible with the original parallel port software
+              and peripherals, but would increase the data rate capability to
+              greater than 1M bytes per second, both in and out of the computer.
+              This committee became the IEEE 1284 committee. </p>
+            <p align="left">The
+              IEEE 1284 standard, "Standard Signaling Method for a Bi-directional
+              Parallel Peripheral Interface for Personal Computers", was
+              approved for final release in March of 1994. </p>
+            <h3 align="left">The
+              Parallel Port -- an Overview</h3>
+            <p align="left">The
+              parallel port, as implemented on the PC, consists of a connector
+              with 17 signal lines and 8 ground lines. The signal lines are divided
+              into three groups:
+            </p><div align="left">
+              <ul>
+                <li>Control
+                  (4 lines) </li>
+                <li>Status
+                  (5 lines) </li>
+                <li>Data
+                  (8 lines) </li>
+              </ul>
+            </div>
+            <p align="left">As
+              originally designed, the Control lines are used as interface control
+              and handshaking signals from the PC to the printer. The Status lines
+              are used for handshake signals and as status indicators for such
+              things as paper empty, busy indication and interface or peripheral
+              errors. The data lines are used to provide data from the PC to the
+              printer, in that direction only. Later implementations of the parallel
+              port allowed for data to be driven from the peripheral to the PC.
+              </p>
+            <p align="left">Table
+              1 identifies each of these signals and gives their Standard Parallel
+              Port (SPP) definitions. The signals within these groups are assigned
+              to specific bits within the registers that make up the hardware/software
+              interface to the parallel port. The parallel port is mapped into
+              the I/O space of the PC. The registers consist as a contiguous block
+              of 3 registers starting from the parallel port's base address. These
+              ports are commonly referred to as the LPT ports and have the familiar
+              I/O base addresses of 3BCh, 378h and 278h. Newer implementations
+              of the parallel port, that support the advanced modes of the 1284
+              standard, use 8 to 16 registers and are located at I/O addresses
+              378h or 278h, or are re-locatable, as in the case of a Plug and
+              Play compliant parallel adapter. </p>
+            <p align="left">Table
+              2 identifies the registers for the standard parallel port. The basic
+              method of transferring data to the printer using this port is described
+              in the section entitled "Compatibility Mode." </p>
+            <h4 align="center">Table
+              1 -- SPP Signal Definitions <sup>(1)</sup></h4>
+            <div align="left">
+              <table border="1">
+                <tbody><tr>
+                  <th>Group</th>
+                  <th>SPP Signal</th>
+                  <th align="center">In/Out</th>
+                  <th>Signal
+                    Description</th>
+                </tr>
+                <tr>
+                  <td>Control</td>
+                  <td>nSTROBE</td>
+                  <td>Out</td>
+                  <td>Active
+                    low. Indicates valid data is on the data lines.</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>nAUTOFEED</td>
+                  <td>Out</td>
+                  <td>Active
+                    low. Instructs the printer to automatically insert a line
+                    feed for each carriage return </td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>nSELECTIN</td>
+                  <td>Out</td>
+                  <td>Active
+                    low. Used to indicate to the printer that it is selected.</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>nINIT</td>
+                  <td>Out</td>
+                  <td>Active
+                    low. Used to reset the printer.</td>
+                </tr>
+                <tr>
+                  <td>Status</td>
+                  <td>nACK</td>
+                  <td>In</td>
+                  <td>A low
+                    asserted pulse used to indicate that the last character was
+                    received.</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>BUSY</td>
+                  <td>In</td>
+                  <td>A high
+                    signal asserted by the printer to indicate that it is busy
+                    and cannot take data.</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>PE</td>
+                  <td>In</td>
+                  <td>Paper
+                    Empty</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>SELECT</td>
+                  <td>In</td>
+                  <td>Asserted
+                    high to indicate that the printer is online.</td>
+                </tr>
+                <tr>
+                  <td>&nbsp;</td>
+                  <td>nERROR</td>
+                  <td>In</td>
+                  <td>Asserted
+                    low to indicate that some error condition exists</td>
+                </tr>
+                <tr>
+                  <td>Data</td>
+                  <td>DATA[8:1]</td>
+                  <td>Out</td>
+                  <td>8 data
+                    lines- output only in older SPP</td>
+                </tr>
+              </tbody></table>
+            </div>
+            <p align="left"><sup>
+              (Note 1)</sup> The signal usage described in this and all following
+              tables define the usage while in the described data transfer mode.
+              Many of these signals are used for mode transitions and for additional
+              status information. Please refer to the IEEE 1284-1994 standard
+              for the complete definition and usage of these signals. This is
+              meant as an introduction only. </p>
+            <h4 align="center">Table
+              2 -- SPP Register Definition</h4>
+            <div align="left">
+              <table border="1">
+                <tbody><tr>
+                  <th align="center">Register
+                    Offset<sup>(2)</sup></th>
+                  <th align="center">Name</th>
+                  <th align="center">Read/Write</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td align="center">0</td>
+                  <td>Data
+                    Register</td>
+                  <td align="center">R/W</td>
+                  <td>Data
+                    port to read or write data</td>
+                </tr>
+                <tr>
+                  <td align="center">1</td>
+                  <td>Status
+                    Register</td>
+                  <td align="center">R</td>
+                  <td>Contains
+                    status bits</td>
+                </tr>
+                <tr>
+                  <td align="center">2</td>
+                  <td>Control
+                    Register</td>
+                  <td align="center">W</td>
+                  <td>Used
+                    to set control signals</td>
+                </tr>
+                <tr>
+                  <td align="center">3-7</td>
+                  <td>Various</td>
+                  <td align="center">N/A</td>
+                  <td>Used
+                    differently by various implementations</td>
+                </tr>
+              </tbody></table>
+            </div>
+            <p align="left"><sup>(Note
+              2)</sup> This is the offset from the base address of the port. </p>
+            <h3 align="left"><b>IEEE
+              1284 Data Transfer Modes</b></h3>
+            <p align="left">The
+              use of the various 1284 data transfer modes provide the capability
+              to create a forward and reverse channel connection between the host
+              computer and an attached peripheral. Since there is only one set
+              of data lines the connection is half duplex, data is transferred
+              in one direction at a time. </p>
+            <p align="left">The
+              Compatibility and Nibble modes of operation can be implemented in
+              any existing parallel port in order to create a complete bi-directional
+              communication path between the host and peripheral. The Compatibility
+              and Byte modes can also be used create a bi-directional communication
+              path, but the the parallel port must support the Byte mode capability.
+              The Byte mode requires that an entire byte of data can be read from
+              the external data lines. This is usually implemented by the addition
+              of a direction bit in the parallel port's Control register. This
+              type of port is generally called a "bi-directional" parallel
+              port. </p>
+            <p align="left">The
+              EPP and ECP modes have bi-directional capability as part of their
+              protocol. These modes require that the hardware implement a state
+              machine that is capable of automatically generating the control
+              strobes that are necessary for these high performance data transfer
+              modes. </p>
+            <p align="left">Each
+              of the operating modes, other than Compatibility, rename the control
+              and status signals to have meaning within the mode being used. The
+              discussions for each mode will use the names consistent with the
+              mode being discussed. <br>
+              <br>
+              </p>
+            <p align="left">&nbsp;</p>
+            </center>
+        </div>
+</body></html>

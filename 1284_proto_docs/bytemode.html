@@ -1,0 +1,142 @@
+<!-- saved from url=(0075)https://web.archive.org/web/20040616192546/http://www.fapo.com/bytemode.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"></head>
+<body>
+        <div align="center">
+          <center>
+            <h1 align="left"><br>
+              <b>Byte
+              Mode</b></h1>
+            <p align="left">With
+              later implementations of the parallel port interface, some manufacturers,
+              led by IBM on the PS/2 parallel port, added the capability to disable
+              the drivers used for driving the data lines, and allowed the data
+              port to become an input read data port. This enables a peripheral
+              to send an entire byte of data to the PC in one data transfer cycle
+              by using the 8 data lines, rather than the two cycles required using
+              the Nibble mode. </p>
+            <p align="left">This
+              ability enables a Byte mode for reverse channel data transfer that
+              can be used to provide data rates into the PC approaching that of
+              the Compatibility mode, from the PC. This type of port is sometimes
+              referred to as a "enhanced bi-directional" port, and has
+              caused some confusion when mistaken for an Enhanced Parallel Port
+              (EPP). </p>
+            <p align="left">The
+              following table identifies the Byte mode signal names, and figure
+              3 shows the handshake for a Byte mode data transfer. </p>
+            <h4 align="left">Table
+              1 -- Byte Mode Signals</h4>
+            <div align="left">
+              <table border="1">
+                <tbody><tr>
+                  <th>SPP Signal</th>
+                  <th>Byte
+                    Mode Name</th>
+                  <th align="center">In/Out</th>
+                  <th>
+                    <p align="center">Description<br>
+                      Signal usage when in Byte Mode data transfer
+                  </p></th>
+                </tr>
+                <tr>
+                  <td>nSTROBE</td>
+                  <td>HostClk</td>
+                  <td align="center">Out</td>
+                  <td>Pulsed
+                    low at the end of each Byte mode data transfer to indicate
+                    that the byte was received. Acknowledge signal.</td>
+                </tr>
+                <tr>
+                  <td>nAUTOFEED</td>
+                  <td>HostBusy</td>
+                  <td align="center">Out</td>
+                  <td>Set low
+                    to indicate host is ready for byte. Set high to indicate byte
+                    has been received. Handshake signal.</td>
+                </tr>
+                <tr>
+                  <td>nSELECTIN</td>
+                  <td>1284Active</td>
+                  <td align="center">Out</td>
+                  <td>Set high
+                    when host is in a 1284 transfer mode.</td>
+                </tr>
+                <tr>
+                  <td>nINIT</td>
+                  <td>nINIT</td>
+                  <td align="center">Out</td>
+                  <td>Not used.
+                    Set high.</td>
+                </tr>
+                <tr>
+                  <td>nACK</td>
+                  <td>PtrClk</td>
+                  <td align="center">In</td>
+                  <td>Set low
+                    to indicate valid data on the data lines, set high in response
+                    to HostBusy going high.</td>
+                </tr>
+                <tr>
+                  <td>BUSY</td>
+                  <td>PtrBusy</td>
+                  <td align="center">In</td>
+                  <td>Forward
+                    channel Busy status.</td>
+                </tr>
+                <tr>
+                  <td>PE</td>
+                  <td>AckDataReq</td>
+                  <td align="center">In</td>
+                  <td>Follows
+                    nDataAvail</td>
+                </tr>
+                <tr>
+                  <td>SELECT</td>
+                  <td>Xflag</td>
+                  <td align="center">In</td>
+                  <td>Extensibility
+                    flag. Not used in Byte mode.</td>
+                </tr>
+                <tr>
+                  <td>nERROR</td>
+                  <td>nDataAvail</td>
+                  <td align="center">In</td>
+                  <td>Set low
+                    by peripheral to indicate that reverse data is available.</td>
+                </tr>
+                <tr>
+                  <td>DATA[8:]</td>
+                  <td>DATA[8:1]</td>
+                  <td align="center">Bi-Di</td>
+                  <td>Used
+                    to provide data from peripheral to host.</td>
+                </tr>
+              </tbody></table>
+            </div>
+            <p align="center"><br>
+              <br>
+              <img align="middle" src="./assets/bmdfig1.jpg" width="460" height="230"><br>
+              <br>
+              Figure 1 -- Byte Mode Data Transfer Cycle</p>
+            <p align="left"><br>
+              Byte Mode signal transitions: </p>
+            <p align="left">1.
+              Host signals ability to take data by asserting HostBusy low</p>
+            <p align="left">2.
+              Peripheral responds by placing first byte on data lines</p>
+            <p align="left">3.
+              Peripheral signals valid byte by asserting PtrClk low</p>
+            <p align="left">4.
+              Host sets HostBusy high to indicate that it has received the and
+              is not yet ready for another byte</p>
+            <p align="left">5.
+              Peripheral sets PtrClk high to acknowledge host. Host pulses HostClk
+              as an acknowledgement to the peripheral</p>
+            <p align="left">6.
+              States 1 through 5 repeat for additional bytes</p>
+            <p align="left"><br>
+              <br>
+              </p>
+            </center>
+        </div>
+</body></html>

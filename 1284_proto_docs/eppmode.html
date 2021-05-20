@@ -1,0 +1,346 @@
+
+<!-- saved from url=(0074)https://web.archive.org/web/20040811152027/http://www.fapo.com/eppmode.htm -->
+<html><head>
+<title>Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 EPP- Enhanced Parallel Port Mode</title>
+</head>
+<body>
+
+        <div align="left">
+          <p>&nbsp;</p>
+          <p><b>EPP
+            Mode</b> </p>
+        </div>
+        <p align="left">The
+          Enhanced Parallel Port protocol was originally developed by Intel, Xircom
+          and Zenith Data Systems, as a means to provide a high performance parallel
+          port link that would still be compatible with the standard parallel
+          port. This protocol capability was implemented by Intel in the 386SL
+          chipset (82360 I/O chip). This was prior to the establishment of the
+          IEEE 1284 committee and the associated standards work. </p>
+        <p align="left">The
+          EPP protocol offered many advantages to parallel port peripheral manufactures
+          and was quickly adopted by many as an optional data transfer method.
+          A loose association of around 80 interested manufacturers was formed
+          to develop and promote the EPP protocol. This association became the
+          EPP Committee and was instrumental in helping to get this protocol adopted
+          as one of the IEEE 1284 advanced modes. </p>
+        <p align="left">Since
+          EPP capable parallel ports were available prior to the release of the
+          1284 standard, there is a small deviation between the pre-1284 EPP ports
+          and 1284 EPP protocol. This will be made clearer later. </p>
+        <p align="left">The
+          EPP protocol provides four types of data transfer cycles:
+        </p><div align="left">
+          <ol>
+            <li>Data
+              Write Cycle</li>
+            <li>Data
+              Read Cycle</li>
+            <li>Address
+              Write Cycle</li>
+            <li>Address
+              Read Cycle</li>
+          </ol>
+        </div>
+        <p align="left">Data
+          cycles are intended to be used to transfer data between the host and
+          the peripheral. Address cycles may be used to pass address, channel,
+          or command and control information. These cycles can be viewed as just
+          two different data cycles. The developer may use and parse the address/data
+          information in any method that makes sense for a particular design.
+          Table 1 describes the EPP signals and their associated SPP signals.
+          </p>
+        <h4 align="left">Table
+          1 -- EPP Signal Definitions</h4>
+        <div align="left">
+          <table border="1" width="513">
+            <tbody><tr>
+              <th>
+                <p align="center">SPP
+                  Signal
+              </p></th>
+              <th align="center">
+                <p align="center">EPP
+                  Signal Name
+              </p></th>
+              <th align="center">
+                <p align="center">In/Out
+              </p></th>
+              <th align="center">
+                <p align="center">EPP
+                  Signal Description
+              </p></th>
+            </tr>
+            <tr>
+              <td>nSTROBE</td>
+              <td align="center">nWRITE</td>
+              <td align="center">Out</td>
+              <td>Active low.
+                Indicates a write operation High for a read cycle.</td>
+            </tr>
+            <tr>
+              <td>nAUTOFEED</td>
+              <td align="center">nDATASTB</td>
+              <td align="center">Out</td>
+              <td>Active low.
+                Indicates a Data_Read or Data_Write operation is in process.</td>
+            </tr>
+            <tr>
+              <td>nSELECTIN</td>
+              <td align="center">nADDRSTB</td>
+              <td align="center">Out</td>
+              <td>Active low.
+                Indicates an Address_Read or Address_Write operation is in process.</td>
+            </tr>
+            <tr>
+              <td>nINIT</td>
+              <td align="center">nRESET</td>
+              <td align="center">Out</td>
+              <td>Active low.
+                Peripheral reset.</td>
+            </tr>
+            <tr>
+              <td>nACK</td>
+              <td align="center">nINTR</td>
+              <td align="center">In</td>
+              <td>Peripheral
+                interrupt. Used to generate an interrupt to the host.</td>
+            </tr>
+            <tr>
+              <td>BUSY</td>
+              <td align="center">nWAIT</td>
+              <td align="center">In</td>
+              <td>Handshake
+                signal. When low it indicates that is OK to start a cycle (assert
+                a strobe), when high it indicates that it is OK to end the cycle
+                (de-assert a strobe).</td>
+            </tr>
+            <tr>
+              <td>D[8:1]</td>
+              <td align="center">AD[8:1]</td>
+              <td align="center">Bi-Di</td>
+              <td>Bi-directional
+                address/data lines.</td>
+            </tr>
+            <tr>
+              <td>PE</td>
+              <td align="center">user
+                defined</td>
+              <td align="center">In</td>
+              <td>Can be used
+                differently by each peripheral</td>
+            </tr>
+            <tr>
+              <td>SELECT</td>
+              <td align="center">user
+                defined</td>
+              <td align="center">In</td>
+              <td>Can be used
+                differently by each peripheral.</td>
+            </tr>
+            <tr>
+              <td>nERROR</td>
+              <td align="center">user
+                defined</td>
+              <td align="center">In</td>
+              <td>Can be used
+                differently by each peripheral.</td>
+            </tr>
+          </tbody></table>
+        </div>
+        <p align="left">Figure
+          1 is an example of a Data_Write cycle . The CPU signal nIOW is shown
+          just to emphasize that this entire handshake occurs within a single
+          I/O cycle.</p>
+        <p align="left"><img src="./assets/eppfig1.gif" width="488" height="267"><br>
+          </p>
+        Figure
+        1 -- EPP Data_Write Cycle
+        <p align="left"><strong>Data
+          Write cycle phase transitions:</strong>
+        </p><div align="left">
+          <ol>
+            <li>Program
+              executes an I/O write cycle to port 4 (EPP Data Port) </li>
+            <li>The
+              nWrite line is asserted and the data is output to the parallel port
+              </li>
+            <li>The
+              data strobe is asserted, since nWAIT is asserted low </li>
+            <li>The
+              port waits for the acknowledge from the peripheral (nWAIT deasserted)
+              </li>
+            <li>The
+              data strobe is deasserted and the EPP cycle ends </li>
+            <li>The
+              ISA I/O cycle ends </li>
+            <li>nWAIT
+              is asserted low to indicate that the next cycle may begin </li>
+          </ol>
+        </div>
+        <p align="left">One
+          of the most important features to note here is that the entire data
+          transfer occurs within one ISA I/O cycle. The effect is that by using
+          the EPP protocol for data transfer, a system can achieve transfer rates
+          from 500K to 2M bytes per second. In this fashion, parallel port peripherals
+          can operate at close to the same performance levels as an equivalent
+          ISA plug-in card. The ability to get this level of performance from
+          a parallel port attached device is one of the major features of the
+          EPP protocol. With interlocked handshakes, the data transfer will happen
+          at the speed of the slowest of the interfaces, the host adapter or the
+          peripheral device. This "speed adaptive" property is transparent
+          to both the host and peripheral. All 1284 transfer modes are implemented
+          with interlocking handshakes.
+          </p>
+        <p align="left">Interlocking
+          refers to the criteria that each control signal transition is acknowledged
+          by the opposite side of the interface. In the above diagram, nDataStrobe
+          can be asserted because nWAIT is low, nWAIT deasserts in response to
+          nDataStrobe be asserted, nDataStrobe deasserts in response to nWAIT
+          being deasserted, and finally nWAIT asserts in response to nDataStrobe
+          being deasserted. In this way the peripheral can control the setup time
+          required for its operation. This is done in the following manner: the
+          setup time is the time from the assertion of nDataStrobe to the deassertion
+          of nWAIT, the peripherals controls this time. Interlocking also has
+          the advantage of making the transfer cycle independent of the cable
+          length. The Nibble, Byte, EPP and ECP modes all have interlocked protocols.
+          </p>
+        <p align="left">As
+          previously mentioned, the pre-1284 EPP devices deviated from the 1284
+          protocol. At the start of the cycle, the nDataStrobe or nAddrStrobe
+          would assert regardless of the state of the nWAIT signal. This means
+          that the peripheral could not hold off the start of a cycle by having
+          nWAIT deasserted. This is sometimes referred to as EPP 1.7, in reference
+          to a Xircom proposal version 1.7. This is the version that Intel implemented
+          in the original 82360 I/O controller. A 1284 EPP compatible peripheral
+          will work properly with an EPP 1.7 version host adapter, but an EPP
+          1.7 peripheral may not operate properly with a 1284 compliant host.
+          Figure 2 is an example of an Address_Read cycle. </p>
+        <p align="left"><img src="./assets/eppfig2.gif" width="436" height="176"><br>
+          </p>
+        <center>
+          Figure
+          2 -- EPP Address_Read Cycle
+        </center>
+        <h3 align="left">EPP
+          Register Interface</h3>
+        <p align="left">The
+          simplest software view of EPP is that of an extension to the register
+          definitions for the standard parallel port. As shown earlier, the SPP
+          consists of three registers, offset from the port's base address: Data
+          port, Status port, and Control port. The most common EPP implementations
+          expand this to use ports not defined by the SPP. See table 2. </p>
+        <h4 align="left">Table
+          2 EPP Register Definitions</h4>
+        <div align="left">
+          <table border="1" width="520">
+            <tbody><tr>
+              <th>Port Name</th>
+              <th>Offset</th>
+              <th>Mode</th>
+              <th>Read/Write</th>
+              <th>Description</th>
+            </tr>
+            <tr>
+              <td>SPP Data
+                Port</td>
+              <td align="center">+0</td>
+              <td align="center">SPP/EPP</td>
+              <td align="center">W</td>
+              <td>Standard
+                SPP data port. No autostrobing.</td>
+            </tr>
+            <tr>
+              <td>SPP Status
+                Port</td>
+              <td align="center">+1</td>
+              <td align="center">SPP/EPP</td>
+              <td align="center">R</td>
+              <td>Reads the
+                input status lines on the interface.</td>
+            </tr>
+            <tr>
+              <td>SPP Control
+                Port</td>
+              <td align="center">+2</td>
+              <td align="center">SPP/EPP</td>
+              <td align="center">W</td>
+              <td>Sets the
+                state of the output control lines.</td>
+            </tr>
+            <tr>
+              <td>EPP Address
+                Port</td>
+              <td align="center">+3</td>
+              <td align="center">EPP</td>
+              <td align="center">R/W</td>
+              <td>Generates
+                an interlocked address read or write cycle.</td>
+            </tr>
+            <tr>
+              <td>EPP Data
+                Port</td>
+              <td align="center">+4</td>
+              <td align="center">EPP</td>
+              <td align="center">R/W</td>
+              <td>Generates
+                an interlocked data read or write cycle.</td>
+            </tr>
+            <tr>
+              <td>Not Defined</td>
+              <td align="center">+5
+                to +7</td>
+              <td align="center">EPP</td>
+              <td align="center">N/A</td>
+              <td>Used differently
+                by various implementations. May be used for 16 and 32 bit I/O.</td>
+            </tr>
+          </tbody></table>
+          <br>
+        </div>
+        <p align="left">By
+          generating a single I/O write instruction to "base_address + 4",
+          the EPP controller will generate the necessary handshake signals and
+          strobes to transfer the data using an EPP Data_Write cycle. I/O instructions
+          to the base addresses, ports 0 through 2, will cause behavior exactly
+          as that as to a standard parallel port. This guarantees compatibility
+          with standard parallel port peripherals and printers. Address cycles
+          are generated when read or write I/O operations are generated to "base_address
+          + 3". </p>
+        <p align="left">Ports
+          5 through 7 are used differently by various hardware implementations.
+          These may be used to implement 16 or 32-bit software interfaces, or
+          used for configuration registers, or not used at all. For example, the
+          Warp Nine Engineering's' F/PortPlus card has only an 8-bit data interface,
+          but can be accessed using 32-bit I/O, for EPP data operations. The ISA
+          controller will intercept the 32- bit I/O and actually generate 4 fast
+          8- bit I/O cycles. The first cycle will be to the addressed I/O port
+          using byte 0 (bits 0-7), the second cycle will be to port+1 using byte
+          1, then port+2 using byte 2 and finally port+3 using byte 3. These additional
+          cycles are generated by hardware and are transparent to the software.
+          The total time for these four cycles will be less than 4 independent
+          8 bit cycles. For example, the F/PortPlus card (from Warp Nine Engineering)
+          maps 4 I/O ports (offset 4 to 7) to the internal EPP Data register.
+          This enables the software to use 32-bit I/O operations for EPP data
+          transfer. Address cycles are still limited to 8-bit I/O. </p>
+        <p align="left">The
+          ability to transfer data to or from the PC by the use of a single instruction
+          is what enables EPP mode parallel ports to transfer data at ISA bus
+          speeds. Rather than having the software implement an I/O intensive software
+          loop, a block of data can be transferred with a single REP_IO instruction.
+          Depending upon the host adapter port implementation and the capability
+          of the peripheral, an EPP port can transfer data from 500K bytes to
+          nearly 2M bytes per second. This data transfer rate is more than enough
+          to enable network adapters, CD ROM, tape backup and other peripherals
+          to operate at nearly ISA bus performance levels. </p>
+        <p align="left">The
+          EPP protocol and current implementations provide a high degree of coupling
+          between the peripheral driver and the peripheral. What this means is
+          the software driver is always able to determine and control the state
+          of communication to the peripheral at any given time. Intermixing of
+          read and write operations as well as block transfers are readily done.
+          This type of coupling is ideal for many register-oriented or real-time
+          controlled peripherals such as network adapters, data acquisition, portable
+          hard drives, and other devices.</p>
+        <p align="left">&nbsp;</p>
+      </body></html>

@@ -1,0 +1,162 @@
+
+<!-- saved from url=(0073)https://web.archive.org/web/20040619183408/http://www.fapo.com/nibble.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+<title>Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 Nibble Mode</title>
+</head>
+<body>
+        <div align="center">
+          <center>
+            <p>&nbsp;</p>
+            <div align="left"><b>Nibble
+              Mode</b> </div>
+            <p align="left">The
+              Nibble mode is the most common way to get reverse channel data from
+              a printer or peripheral. This mode is usually combined with the
+              Compatibility mode or a proprietary forward channel mode to create
+              a complete bi-directional channel. </p>
+            <p align="left">All
+              of the standard parallel ports provide 5 lines from the peripheral
+              to the PC to be used for external status indications. Using these
+              lines, a peripheral can send a byte of data (8-bits) by sending
+              2 nibbles (4-bits) of information to the PC in two data transfer
+              cycles. Unfortunately, since the nACK line is generally used to
+              provide a peripheral interrupt, the bits used to transfer a nibble
+              are not conveniently packed into the byte defined by the Status
+              register. For this reason, the software must read the status byte
+              and then manipulate the bits in order to get a correct byte. </p>
+            <p align="left">Table
+              1 identifies the signal names for the Nibble mode. Figure 1 shows
+              the basic data handshake for a nibble mode transfer from the peripheral
+              to the host. </p>
+            <h4 align="center">Table
+              1 -- Nibble Mode Signals</h4>
+            <table border="1">
+              <tbody><tr>
+                <th>SPP Signal</th>
+                <th align="center">Nibble
+                  Mode Name</th>
+                <th align="center">In/Out</th>
+                <th>Description --
+                  Signal usage when in Nibble Mode data transfer</th>
+              </tr>
+              <tr>
+                <td>nSTROBE</td>
+                <td align="center">nSTROBE</td>
+                <td align="center">Out</td>
+                <td>Not used for reverse
+                  data transfer</td>
+              </tr>
+              <tr>
+                <td>nAUTOFEED</td>
+                <td align="center">HostBusy</td>
+                <td align="center">Out</td>
+                <td>Host nibble mode
+                  handshake signal. Set low to indicate host is ready for nibble.
+                  Set high to indicate nibble has been received.</td>
+              </tr>
+              <tr>
+                <td>nSELECTIN</td>
+                <td align="center">1284Active</td>
+                <td align="center">Out</td>
+                <td>Set high when
+                  host is in a 1284 transfer mode.</td>
+              </tr>
+              <tr>
+                <td>nINIT</td>
+                <td align="center">nINIT</td>
+                <td align="center">Out</td>
+                <td>Not used for reverse
+                  data transfer</td>
+              </tr>
+              <tr>
+                <td>nACK</td>
+                <td align="center">PtrClk</td>
+                <td align="center">In</td>
+                <td>Set low to indicate
+                  valid nibble data, set high in response to HostBusy going high.</td>
+              </tr>
+              <tr>
+                <td>BUSY</td>
+                <td align="center">PtrBusy</td>
+                <td align="center">In</td>
+                <td>Used for Data
+                  bit 3, then 7</td>
+              </tr>
+              <tr>
+                <td>PE</td>
+                <td align="center">AckDataReq</td>
+                <td align="center">In</td>
+                <td>Used for Data
+                  bit 2, then 6</td>
+              </tr>
+              <tr>
+                <td>SELECT</td>
+                <td align="center">Xflag</td>
+                <td align="center">In</td>
+                <td>Used for Data
+                  bit 1, then 5</td>
+              </tr>
+              <tr>
+                <td>nERROR</td>
+                <td align="center">nDataAvail</td>
+                <td align="center">In</td>
+                <td>Used for Data
+                  bit 0, then 4</td>
+              </tr>
+              <tr>
+                <td>DATA[8:1]</td>
+                <td align="center">Not
+                  Used</td>
+                <td><font size="1">&nbsp;</td>
+              </tr>
+            </tbody></table>
+            <p align="center"><img src="./assets/nibfig1.gif" width="488" height="168"><br>
+              </p>
+            <h3 align="center">Figure
+              1 -- Nibble Mode Data Transfer Cycle <strong>1284 Nibble Mode phase
+              transition:</strong> </h3>
+            <ol>
+              <li>
+                <div align="left">Host
+                  signals ability to take data by asserting HostBusy low</div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  responds by placing first nibble on status lines</div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  signals valid nibble by asserting PtrClk low</div>
+              </li>
+              <li>
+                <div align="left">Host
+                  sets HostBusy high to indicate that it has received the nibble
+                  and is not yet ready for another nibble.</div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  sets PtrClk high to acknowledge host</div>
+              </li>
+              <li>
+                <div align="left">States
+                  1 through 5 repeat for the second nibble</div>
+              </li>
+            </ol>
+            <p align="left">Nibble
+              mode, like the Compatible mode, requires that the software drive
+              the protocol by setting and reading the lines on the parallel port.
+              Nibble mode is the most software intensive mode for reverse channel
+              data communication. For this reason, there is a severe limitation
+              of approximately 50K bytes per second for this type of data transfer.
+              The major advantage of this combination of modes is the ability
+              to operate on all PCs that have a parallel port. The performance
+              limitations incurred by the Nibble mode operation does not have
+              much visible effect on peripherals that have low reverse channel
+              requirements, such as printers, but can be nearly intolerable when
+              used for LAN adapters, disk drives or CD ROM drives. <font color="#000000" face="Arial"><br>
+              <br>
+              </p>
+            </center>
+        </div>
+</body></html>

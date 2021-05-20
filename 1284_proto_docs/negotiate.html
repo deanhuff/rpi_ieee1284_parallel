@@ -1,0 +1,196 @@
+
+<html><head>
+
+<title>Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 Negotiation</title>
+</head>
+<body>
+        <div align="center">
+          <center>
+            <p>&nbsp;</p>
+            <h1 align="left"> <b>1284
+              Negotiation</b></h1>
+            <p align="left">The
+              previous sections have identified all of the modes of an IEEE 1284-capable
+              interface. Peripherals are not required to implement all of the
+              modes. This being the case, a method is needed for a host platform
+              to determine what the capabilities of the attached peripheral are,
+              and to have a controlled method by which to set the interface into
+              one of the modes. </p>
+            <p align="left">The
+              concept of negotiation was developed to fill this need. Negotiation
+              is a sequence of events on the parallel port interface that would
+              not effect an older "legacy" device but would provide
+              identification of a 1284 peripheral. The concept is that an older
+              device will not respond to the negotiation sequence and therefore
+              the host would remain in a compatible mode state, while a 1284 peripheral
+              would respond to the sequence and could then be set to any of the
+              peripheral and host supported modes. </p>
+            <p align="left">During
+              the negotiation phase, the host places a request on the data lines
+              and then initiates the negotiation sequence. The request can be
+              to put the interface into a particular mode, or request a device
+              ID from the peripheral. Device ID will be discussed later. Figure
+              8 shows the basic Negotiation sequence. </p>
+            <p align="left">The
+              Extensibility byte is used during negotiation to request that the
+              peripheral enter a specific transfer mode, or to request that the
+              peripheral send a device ID that will allow the host to identify
+              the type of attached peripheral. The device ID can be returned in
+              any reverse channel mode, other than EPP. Table 1 describes the
+              extensibility byte and allowable values. The XFlag is used by the
+              peripheral for acknowledgment that the requested mode is available.
+              The XFlag will always be set to one (#6 in figure 8) as a positive
+              acknowledgment for all requests except for Nibble mode reverse channel.
+              All 1284-compliant devices are required to support Nibble mode for
+              reverse channel operation. The Extensibility Link request bit is
+              used to provide a mechanism for future expansion and addition of
+              new operational modes and features. </p>
+            <p align="left">Negotiation
+              and device ID are key features for the future ability of PC platforms
+              to determine system configuration and to include parallel port attached
+              peripherals in this determination. </p>
+            Table 1 -- Extensibility
+            Byte Bit Values
+            <div align="center">
+              <table border="1">
+                <tbody><tr>
+                  <th align="center">Bit</th>
+                  <th align="center">Description</th>
+                  <th align="center">Valid
+                    Bit Values<br>
+                    (8765 4321)</th>
+                </tr>
+                <tr>
+                  <td align="center">8</td>
+                  <td align="center">Request
+                    Extensibility Link</td>
+                  <td align="center">1000
+                    0000</td>
+                </tr>
+                <tr>
+                  <td align="center">7</td>
+                  <td align="center">Request
+                    EPP Mode</td>
+                  <td align="center">0100
+                    0000</td>
+                </tr>
+                <tr>
+                  <td align="center">6</td>
+                  <td align="center">Request
+                    ECP Mode with RLE</td>
+                  <td align="center">0011
+                    0000</td>
+                </tr>
+                <tr>
+                  <td align="center">5</td>
+                  <td align="center">Request
+                    ECP Mode without RLE</td>
+                  <td align="center">0001
+                    0000</td>
+                </tr>
+                <tr>
+                  <td align="center">4</td>
+                  <td align="center">Reserved</td>
+                  <td align="center">0000
+                    1000</td>
+                </tr>
+                <tr>
+                  <td align="center">3</td>
+                  <td align="center">Request
+                    Device ID</td>
+                  <td align="center">Return
+                    data using mode:<br>
+
+                    <table>
+                      <tbody><tr>
+                        <td><font face="Arial">Nibble Mode</td>
+                        <td><font face="Arial">0000 0100</td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial">Byte Mode</td>
+                        <td><font face="Arial">0000 0101</td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial">ECP Mode without RLE</td>
+                        <td><font face="Arial">0001 0100</td>
+                      </tr>
+                      <tr>
+                        <td><font face="Arial">ECP Mode with RLE</td>
+                        <td><font face="Arial">0011 0100</td>
+                      </tr>
+                    </tbody></table>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="center">2</td>
+                  <td align="center">Reserved</td>
+                  <td align="center">0000
+                    0010</td>
+                </tr>
+                <tr>
+                  <td align="center">1</td>
+                  <td align="center">Byte
+                    Mode</td>
+                  <td align="center">0000
+                    0001</td>
+                </tr>
+                <tr>
+                  <td align="center">none</td>
+                  <td align="center">Nibble
+                    Mode</td>
+                  <td align="center">0000
+                    0000</td>
+                </tr>
+              </tbody></table>
+              <br>
+            </div>
+            <p align="center"><img src="./assets/negfig1.gif" width="504" height="336"><br>
+              </p>
+            Figure 1 -- Basic Negotiation
+            Sequence
+            <p align="left">1284 Negotiation
+              phases transitions:
+            </p><ol>
+              <li>
+                <div align="left">The
+                  host places the requested extensibility byte on the data lines
+                  </div>
+              </li>
+              <li>
+                <div align="left">The
+                  host then sets nSelectIn high and nAutoFeed low to indicate
+                  a negotiation sequence. </div>
+              </li>
+              <li>
+                <div align="left">A
+                  1284 peripheral will respond by setting nAck low, and nError,PE
+                  and Select high. A non-1284 peripheral will not respond. </div>
+              </li>
+              <li>
+                <div align="left">The
+                  host sets nStrobe low. This is used to strobe the Extensibility
+                  byte in to the peripheral. </div>
+              </li>
+              <li>
+                <div align="left">The
+                  host then sets nStrobe and nAutoFeed high to signal to the peripheral
+                  that it recognizes it as a 1284 device. </div>
+              </li>
+              <li>
+                <div align="left">The
+                  peripheral responds by setting PE low, nError low if the peripheral
+                  has reverse channel data available, and Select high if the requested
+                  mode is available, or Select low if the requested mode is not
+                  available. </div>
+              </li>
+              <li>
+                <div align="left">The
+                  peripheral now sets nAck high to signal that the negotiation
+                  sequence is over and the signal lines are in a state compatible
+                  with the request mode. </div>
+              </li>
+            </ol>
+            <p>&nbsp;</p>
+          </center>
+        </div>
+      </body></html>

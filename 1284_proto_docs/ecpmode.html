@@ -1,0 +1,492 @@
+
+<!-- saved from url=(0074)https://web.archive.org/web/20040812081512/http://www.fapo.com/ecpmode.htm -->
+<html><head>
+<title>Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 ECP Mode</title>
+</head>
+<body >
+
+        <div align="center">
+          <center>
+            <h1 align="left"><b><br>
+              ECP Mode</b></h1>
+            <p align="left">The Extended
+              Capability Port, or ECP, protocol was proposed by Hewlett Packard
+              and Microsoft as an advanced mode for communication with printer
+              and scanner type peripherals. Like the EPP protocol, ECP provides
+              for a high performance bi-directional communication path between
+              the host adapter and the peripheral. </p>
+            <p align="left">The ECP
+              protocol provides the following cycle types in both the forward
+              and reverse directions:
+            </p><div align="left">
+              <ol style="color: rgb(0,0,0)">
+                <li style="color: rgb(0,0,0)" type="disc">Data
+                  cycles<br>
+                  </li>
+                <li style="color: rgb(0,0,0)" type="disc">Command
+                  cycles</li>
+              </ol>
+            </div>
+            <p align="left">The command
+              cycles are divided into 2 types, Run-Length Count and Channel address.
+              </p>
+            <p align="left">Unlike
+              EPP, when the ECP protocol was proposed, a standard register implementation
+              was also proposed. This can be found in the Microsoft document <a file="ecp_reg.pdf">"The
+              IEEE 1284 Extended Capabilities Port Protocol and ISA Interface
+              Standard"</a> available from Microsoft Corp. This document
+              defines features that are implementation specific which the IEEE
+              1284 standard could not address. These features include Run_Length_Encoding
+              (RLE) data compression for the host adapters, FIFOs for both the
+              forward and reverse channels, and DMA as well as programmed I/O
+              for the host register interface. </p>
+            <p align="left">The RLE
+              feature enables real time data compression that can achieve compression
+              ratios up to 64:1. This is particularly useful for printers and
+              scanners that are transferring large raster images that have large
+              strings of identical data. In order for the RLE mode to be enabled
+              both the host and the peripheral must support it. </p>
+            <p align="left">Channel
+              addressing is, conceptually, a little different than the EPP addressing.
+              Channel addressing is intended to be used to address multiple logical
+              devices within a single physical device. Think of this in terms
+              of a new multi-function device such as FAX/Printer/Modem. Within
+              one physical package, having a single parallel port attached, there
+              is a printer, fax and modem. Each of these separate functions can
+              be thought of as separate logical devices within the same package.
+              Using the ECP channel addressing to access each of these devices,
+              you could receive data from the modem data device while the printer
+              data channel is busy processing a print image. With the compatibility
+              mode protocol, if the printer gets busy then no more communication
+              can occur until the printer data channel if free. With ECP, the
+              software driver simply addresses another channel and communication
+              can continue. </p>
+            <p align="left">As with
+              the other 1284 modes, the ECP protocol redefines the SPP signals
+              to be more consistent with the ECP handshake. Table 1 describes
+              these signals. </p>
+            <h4 align="center">Table
+              1 -- ECP Mode Signals</h4>
+            <table border="1" width="498">
+              <tbody><tr>
+                <th>SPP
+                  Signal</th>
+                <th align="center">ECP
+                  Mode Name</th>
+                <th align="center">In/Out</th>
+                <th>Description
+                  -- Signal usage when in ECP Mode data transfer</th>
+              </tr>
+              <tr>
+                <td>nSTROBE</td>
+                <td align="center">HostClk</td>
+                <td align="center">Out</td>
+                <td>Used
+                  with PeriphAck to transfer data or address information in the
+                  forward direction.</td>
+              </tr>
+              <tr>
+                <td>nAUTOFEED</td>
+                <td align="center">HostAck</td>
+                <td align="center">Out</td>
+                <td>Provides
+                  Command/Data status in the forward direction. Used with PeriphClk
+                  to transfer data in the reverse direction.</td>
+              </tr>
+              <tr>
+                <td>nSELECTIN</td>
+                <td align="center">1284Active</td>
+                <td align="center">Out</td>
+                <td>Set
+                  high when host is in a 1284 transfer mode.</td>
+              </tr>
+              <tr>
+                <td>nINIT</td>
+                <td align="center">nReverseRequest</td>
+                <td align="center">Out</td>
+                <td>Driven
+                  low to put the channel in reverse direction.</td>
+              </tr>
+              <tr>
+                <td>nACK</td>
+                <td align="center">PeriphClk</td>
+                <td align="center">In</td>
+                <td>Used
+                  with HostAck to transfer data in the reverse direction.</td>
+              </tr>
+              <tr>
+                <td>BUSY</td>
+                <td align="center">PeriphAck</td>
+                <td align="center">In</td>
+                <td>Used
+                  with HostClk to transfer data or address information in the
+                  forward direction. Provides Command/Data status in the reverse
+                  direction.</td>
+              </tr>
+              <tr>
+                <td>PE</td>
+                <td align="center">nAckReverse</td>
+                <td align="center">In</td>
+                <td>Driven
+                  low to acknowledge nReverseRequest.</td>
+              </tr>
+              <tr>
+                <td>SELECT</td>
+                <td align="center">Xflag</td>
+                <td align="center">In</td>
+                <td>Extensibility
+                  flag.</td>
+              </tr>
+              <tr>
+                <td>nERROR</td>
+                <td align="center">nPeriphRequest</td>
+                <td align="center">In</td>
+                <td>Set
+                  low by peripheral to indicate that reverse data is available.</td>
+              </tr>
+              <tr>
+                <td>Data[8:1]</td>
+                <td align="center">Data[8:1]</td>
+                <td align="center">Bi-Di</td>
+                <td>Used
+                  to provide data between the peripheral and host.</td>
+              </tr>
+            </tbody></table>
+            <p align="left">Figure
+              1 shows two forward data transfer cycles. When HostAck is high it
+              indicates that a data cycle is taking place. When HostAck is asserted
+              low, a command cycle is taking place and the data represents either
+              an RLE count or a Channel address. Bit 8, of the data byte is used
+              to indicate RLE vs. Channel address. If bit 8 is 0, then bits 1-7
+              represent a Run_Length Count (0-127). If bit 8 is 1, then bits 1-7
+              represent a Channel address (0-127). Figure 6 shows a data cycle
+              followed by a command cycle. </p>
+            <p align="left">Figure
+              2 shows a reverse channel command cycle followed by a reverse channel
+              data cycle. The I/O read or write strobes are not shown in these
+              figures. This is because the ECP FIFOs are used to decouple the
+              ISA data transfers, either DMA or programmed I/O, from the actual
+              host/peripheral data transfers. It is this decoupling of the transfer
+              states that makes the ECP protocol a "loosely coupled"
+              protocol. The software driver does not know the exact state of the
+              data transfers. If a large block is being transferred via DMA, the
+              driver does not know if the 123rd byte is being transferred or the
+              342,201st byte. As in the case of printers, the software may not
+              care. The only concern is whether the transfer was completed or
+              not.</p>
+            <p align="center"><img src="./assets/ecpfig1.gif" width="520" height="176"><br>
+              </p>
+            <h3 align="center">Figure
+              1 -- ECP Forward Data and Command Cycle<br>
+              </h3>
+            <p align="left">Forward
+              Transfer phase transistions:
+            </p><ol>
+              <li>
+                <div align="left">The
+                  host places data on the data lines and indicates a data cycle
+                  by setting HostAck high. </div>
+              </li>
+              <li>
+                <div align="left">Host
+                  asserts HostClk low to indicate valid data </div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  acknowledges host by setting PeriphAck high </div>
+              </li>
+              <li>
+                <div align="left">Host
+                  sets HostClk high. This is the edge that should be used to clock
+                  the data in to the peripheral. </div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  sets PeriphAck low to indicate that it is ready for the next
+                  byte. </div>
+              </li>
+              <li>
+                <div align="left">The
+                  cycle repeats, but this time it is a command cycle because HostAck
+                  is low. </div>
+              </li>
+            </ol>
+            <p align="left">NOTE:
+              Since ECP transfers are loosely coupled, with a FIFO possibly on
+              both sides of the interface, it is important to note at which step
+              the data is considered "transferred". This point occurs
+              at step 4, when the HostClk goes high. At this time, the data should
+              be clocked in to the peripheral, and any data counters updated.
+              There is a condition in the ECP protocol that could cause the transfer
+              to abort at between steps 3 and 4. In this case the data should
+              not be considered to have been transferred. </p>
+            <p align="left">Figure
+              2 shows another of the differences between the ECP and EPP protocols.
+              With EPP, the software driver may intermix read and write operations
+              without any overhead or protocol handshaking. With the ECP protocol,
+              changes in the data direction must be negotiated. The host must
+              request a reverse channel transfer by asserting nReverseRequest
+              and then wait for the peripheral to acknowledge the request by asserting
+              nAckReverse. Only then can a reverse channel data transfer take
+              place. In addition, since the previous transfer may have been DMA
+              driven, the host software must either wait for the DMA to complete,
+              or interrupt the DMA, backflush the FIFO to determine the exact
+              transferred byte count, and then request the reverse channel. This
+              adds a fair amount of overhead with peripherals that require a lot
+              of intermixed reading and writing of registers or small buffers.</p>
+            <p align="center">Figure
+              2 -- ECP Reverse Data and Command Cycle</p>
+            <p>Reverse
+              Transfer phase transistions: <img src="./assets/ecpfig2.gif">
+            </p><ol style="color: rgb(0,0,0)">
+              <li>
+                <div align="left">The
+                  host requests a reverse channel transfer by setting nReverseRequest
+                  low. </div>
+              </li>
+              <li>
+                <div align="left">The
+                  peripheral signals that it is OK to proceed by setting nAckReverse
+                  low </div>
+              </li>
+              <li>
+                <div align="left">The
+                  peripheral places data on the data lines and indicates a data
+                  cycle by setting PeriphAck high. </div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  asserts PeriphClk low to indicate valid data </div>
+              </li>
+              <li>
+                <div align="left">Host
+                  acknowledges by setting HostAck high </div>
+              </li>
+              <li>
+                <div align="left">Peripheral
+                  sets PeriphClk high. This is the edge that should be used to
+                  clock the data in to the host. </div>
+              </li>
+              <li>
+                <div align="left">Host
+                  sets HostAck low to indicate that it is ready for the next byte.
+                  </div>
+              </li>
+              <li>
+                <div align="left">The
+                  cycle repeats, but this time it is a command cycle because PeriphAck
+                  is low. </div>
+              </li>
+            </ol>
+            <h3>ECP
+              Software and Register Interface</h3>
+            <p align="left">The
+              Microsoft specification, "The IEEE 1284 Extended Capabilities
+              Port Protocol and ISA Interface Standard", defines a common
+              register interface for ISA based 1284 adapters with ECP. This specification
+              also defines a number of operational modes that the adapter can
+              operate under. Table 2 identifies these modes. </p>
+            <h4 align="center">Table
+              2 -- ECR Register Modes</h4>
+            <div align="center">
+              <table border="1" width="271">
+                <tbody><tr>
+                  <th align="center">Mode</th>
+                  <th align="center">Description</th>
+                </tr>
+                <tr>
+                  <td align="center">000</td>
+                  <td align="center">SPP
+                    mode</td>
+                </tr>
+                <tr>
+                  <td align="center">001</td>
+                  <td align="center">Bi-directional
+                    mode (Byte mode)</td>
+                </tr>
+                <tr>
+                  <td align="center">010</td>
+                  <td align="center">Fast
+                    Centronics</td>
+                </tr>
+                <tr>
+                  <td align="center">011</td>
+                  <td align="center">ECP
+                    Parallel Port mode</td>
+                </tr>
+                <tr>
+                  <td align="center">100</td>
+                  <td align="center">EPP
+                    Parallel Port mode <sup>(note 1)</sup></td>
+                </tr>
+                <tr>
+                  <td align="center">101</td>
+                  <td align="center">(reserved)</td>
+                </tr>
+                <tr>
+                  <td align="center">110</td>
+                  <td align="center">Test
+                    mode</td>
+                </tr>
+                <tr>
+                  <td align="center">111</td>
+                  <td align="center">Configuration
+                    mode</td>
+                </tr>
+              </tbody></table>
+              <br>
+            </div>
+            <p align="left">(note
+              1)
+              This mode is implemented by the SMC FDC37C665/666 controller and
+              is not defined by the ECP specification. Most 1284 I/O controllers
+              implement the EPP mode in a similar fashion. </p>
+            <p align="left">The
+              register model for an ECP port is similar to that of the standard
+              parallel port, but takes advantage of a significant design oddity
+              of the ISA bus architecture. In the IBM compatible PC architecture,
+              only the first 1024 I/O ports, or addresses, are used. This is the
+              basic I/O space of 0x000h to 0x3ffh. In order to address this range
+              of addresses, only 10 address bits are needed (AD0-9). In order
+              to save cost, older PC's only drove and decoded these address bits
+              on the ISA bus and therefore limited the available I/O space to
+              these 1024 registers. Newer PC's, actually drive and decode more
+              address bits, enabling a larger available I/O space. This creates,
+              in effect, multiple "pages" of the first 1K I/O ports.
+              A software driver can access these pages by adding 1024 (0x400h
+              hex notation) to the base address being accessed. Therefore, addressing
+              addresses 0x378h and 0x778h can access 2 registers on two separate
+              pages, but be guaranteed not to interfere with any other installed
+              ISA device. The advantage is that by using this "aliasing"
+              effect, new cards can have "hidden" registers, thus expanding
+              the available number of registers available, and still maintain
+              compatibility with older ISA cards that only decode 10 address bits.
+              </p>
+            <p align="left">The
+              ECP register model takes advantage of this and defines 6 registers
+              that only require 3 actual I/O ports. Table 9 identifies these registers.
+              Note that the register definition may be dependent upon the current
+              mode of operation. The ECR register is the most important aspect
+              of this register configuration. This is the register that is used
+              to set the current operational mode. Additionally, this register
+              can be used by software to determine if an ECP-capable port is installed
+              in the PC. Detection software can try to access any ECR registers
+              by adding 0x402h to the base address of the LPT ports identified
+              in the BIOS LPT port table.
+              </p>
+            <h4 align="center">Table
+              3 -- ECP Register Description</h4>
+            <div align="center">
+              <table border="1">
+                <tbody><tr>
+                  <th align="center">Offset</th>
+                  <th align="center">Name</th>
+                  <th align="center">Read/Write</th>
+                  <th>ECP
+                    Mode</th>
+                  <th align="center">Function</th>
+                </tr>
+                <tr>
+                  <td align="center">000</td>
+                  <td align="center">Data</td>
+                  <td align="center">R/W</td>
+                  <td align="center">000-001</td>
+                  <td>Data
+                    Register</td>
+                </tr>
+                <tr>
+                  <td align="center">000</td>
+                  <td align="center">ecpAfifo</td>
+                  <td align="center">R/W</td>
+                  <td align="center">011</td>
+                  <td align="center">ECP
+                    Address FIFO</td>
+                </tr>
+                <tr>
+                  <td align="center">001</td>
+                  <td align="center">dsr</td>
+                  <td align="center">R/W</td>
+                  <td align="center">all</td>
+                  <td align="center">Status
+                    Register</td>
+                </tr>
+                <tr>
+                  <td align="center">002</td>
+                  <td align="center">dcr</td>
+                  <td align="center">R/W</td>
+                  <td align="center">all</td>
+                  <td align="center">Control
+                    Register</td>
+                </tr>
+                <tr>
+                  <td align="center">400</td>
+                  <td align="center">cFifo</td>
+                  <td align="center">R/W</td>
+                  <td align="center">010</td>
+                  <td align="center">Parallel
+                    Port Data FIFO</td>
+                </tr>
+                <tr>
+                  <td align="center">400</td>
+                  <td align="center">ecpDfifo</td>
+                  <td align="center">R/W</td>
+                  <td align="center">011</td>
+                  <td align="center">ECP
+                    Data FIFO</td>
+                </tr>
+                <tr>
+                  <td align="center">400</td>
+                  <td align="center">tfifo</td>
+                  <td align="center">R/W</td>
+                  <td align="center">110</td>
+                  <td align="center">Test
+                    FIFO</td>
+                </tr>
+                <tr>
+                  <td align="center">400</td>
+                  <td align="center">cnfgA</td>
+                  <td align="center">R</td>
+                  <td align="center">111</td>
+                  <td align="center">Configuration
+                    Register A</td>
+                </tr>
+                <tr>
+                  <td align="center">401</td>
+                  <td align="center">cnfgB</td>
+                  <td align="center">R/W</td>
+                  <td align="center">111</td>
+                  <td align="center">Configuration
+                    Register B</td>
+                </tr>
+                <tr>
+                  <td align="center">402</td>
+                  <td align="center">ecr</td>
+                  <td align="center">R/W</td>
+                  <td align="center">all</td>
+                  <td align="center">Extended
+                    Control Register</td>
+                </tr>
+              </tbody></table>
+              <br>
+            </div>
+            <p align="left">This
+              paper will not attempt to describe all the functions of the ECP
+              registers. For information regarding the register usage and bit
+              definitions, please refer to the Microsoft document or the I/O controller
+              data sheet. </p>
+            <p align="left">It
+              should be noted that if the port is in either standard parallel
+              port mode or bi- directional mode, then the first 3 registers behave
+              exactly as a standard parallel port. This way, compatibility with
+              older devices and device drivers is maintained. </p>
+            <p align="left">Usage
+              of this port is similar to that of the EPP port. An operational
+              mode is written to the ecr register, and then data transfer is accomplished
+              by writing or reading from the appropriate I/O port. All of the
+              handshaking is automatically generated by the interface controller.
+              The major difference is that the ECP port is meant to be driven
+              by DMA rather than explicit I/O operations. Again, this is a loosely
+              coupled interface that is targeted primarily at peripherals that
+              interchange large blocks of data.</p>
+            <p>&nbsp;</p>
+</body></html>

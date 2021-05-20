@@ -1,0 +1,49 @@
+Parallel Interface Cable:
+Type 1284A to 1284B
+
+Note: Some lines share common return (ground) pins.
+
+        Host                            Peripheral
+       1284A                              1284B
+	  DB25				    Centronics
+   --------------                     --------------
+        Pin              Signal            Pin
+        ___              ________          ___
+         1               nStrobe           1
+         18              Rtn               19
+         2               Data_1            2
+         19              Rtn               20
+         3               Data_2            3
+         19              Rtn               21
+         4               Data_3            4
+         20              Rtn               22
+         5               Data_4            5
+         20              Rtn               23
+         6               Data_5            6
+         21              Rtn               24
+         7               Data_6            7
+         21              Rtn               25
+         8               Data_7            8
+         22              Rtn               26
+         9               Data_8            9
+         22              Rtn               27
+         10              nAck              10
+         24              Rtn               28
+         11              Busy              11
+         23              Rtn               29
+         12              Paper_Empty       12
+         24              Rtn               28
+         13              Select            13
+         24              Rtn               28
+         14              nAutoFeed         14
+         25              Rtn               30
+         15              nError            32
+         23              Rtn               29
+         16              nInit             31
+         25              Rtn               30
+         17              nSelect_In        36
+         25              Rtn               30
+			 Gnd		   16
+			 CH. Gnd	   17
+			 Peripheral high   18
+		         Not defined	   15, 33, 34, 35

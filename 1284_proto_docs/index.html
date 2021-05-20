@@ -1,0 +1,124 @@
+<!-- saved from url=(0074)https://web.archive.org/web/20040803084003/http://www.fapo.com/1284int.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252"><script src="./Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 Introduction_files/analytics.js" type="text/javascript"></script>
+<title>Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 Introduction</title>
+<meta name="description" content="This page serves as an executive summary of the 1284 standard. By clicking on the various highlighted points, you may explore each concept in greater detail.">
+<meta name="abstract" content="Executive Summary of the 1284 Standard">
+<meta name="keywords" content="standard, IEEE 1284">
+
+</head>
+<body>
+            <p>&nbsp;</p>
+            <h1 align="left"><b>Introduction to the IEEE 1284-1994 Standard
+              </b><br>
+            </h1>
+            <p align="left">This
+              section is implemented as a multilevel document. This page serves
+              as an executive summary of the 1284 standard. By clicking on the
+              various highlighted points, you may explore each concept in greater
+              detail.<br>
+              <br>
+              <br>
+
+              The recently released standard,<em> "IEEE Std.1284-1994 Standard
+              Signaling Method for a Bi-directional Parallel Peripheral Interface
+              for Personal Computers"</em>, is for the parallel port what
+              the Pentium processor is to the 286. The standard provides for high
+              speed bi-directional communication between the PC and an external
+              peripheral that can communicate 50 to 100 times faster than the
+              original parallel port. It can do this and still be fully backward
+              compatible with all existing parallel port peripherals and printers.</p>
+            <p align="left"><br>
+              Click <a href="./porthistory.html">here</a> for a history and background
+              of the parallel port.</p>
+            <p align="left">The
+              1284 standard defines 5 modes of data transfer. Each mode provides
+              a method of transferring data in either the forward direction (PC
+              to peripheral), reverse direction (peripheral to PC) or bi-directional
+              data transfer (half duplex). The defined modes are: </p>
+            <div align="left">
+              <ul>
+                <li><strong>Forward
+                  direction only</strong></li>
+                <dl>
+                  <dt><a href="compatibilitymode.html">Compatibility
+                    Mode</a></dt>
+                  <dd>"Centronics"
+                    or standard mode</dd>
+
+                </dl>
+                <li><strong>Reverse
+                  direction only</strong></li>
+                <dl>
+                  <dt><a href="nibble.html">Nibble
+                    Mode</a></dt>
+                  <dd>4
+                    bits at a time using status lines for data.<br>
+                    Hewlett Packard Bi-tronics</dd>
+                  <dt><a href="./bytemode.html">Byte
+                    Mode</a></dt>
+                  <dd>8
+                    bits at a time using data lines, sometimes referred to as
+                    a "bi-directional" port.</dd>
+
+                </dl>
+                <li><strong>Bi-directional</strong></li>
+                <dl>
+                  <dt><a href="eppmode.html">EPP</a></dt>
+                  <dd>Enhanced
+                    Parallel Port- used primarily by non-printer peripherals,
+                    CD ROM, tape, hard drive, network adapters, etc....</dd>
+                  <dt><a href="ecpmode.html">ECP</a></dt>
+                  <dd>Extended
+                    Capability Port- used primarily by new generation of printers
+                    and scanners</dd>
+
+                </dl>
+              </ul>
+            </div>
+            <p align="left">All
+              parallel ports can implement a bi-directional link by using the
+              Compatible and Nibble modes for data transfer. Byte mode can be
+              utilized by about 25% of the installed base of parallel ports. All
+              three of these modes utilize software only to transfer the data.
+              The driver has to write the data, check the handshake lines (i.e.:
+              BUSY), assert the appropriate control signals (i.e.: STROBE) and
+              then go on to the next byte. This is very software intensive and
+              limits the effective data transfer rate to 50 to 100 Kbytes per
+              second.</p>
+            <p align="left">In
+              addition to the previous 3 modes, EPP and ECP are being implemented
+              on the latest I/O controllers by most of the Super I/O chip manufacturers.
+              These modes use hardware to assist in the data transfer. For example,
+              in EPP mode, a byte of data can be transferred to the peripheral
+              by a simple OUT instruction. The I/O controller handles all the
+              handshaking and data transfer to the peripheral. </p>
+            <p align="left">Overall,
+              the 1284 standard provides the following:
+            </p><div align="left">
+              <ol>
+                <li>5
+                  modes of operation for data transfer</li>
+                <li>A
+                  method for the host and peripheral to determine the supported
+                  modes and to <a href="./negotiate.html">negotiate</a> to the requested
+                  mode.</li>
+                <li>Defines
+                  the physical interface</li>
+                <ul>
+                  <li><a href="1284cabl.html">Cables</a></li>
+                  <li><a href="1284conn.html">Connectors</a></li>
+                </ul>
+                <li>Defines
+                  the<a href="1284elec.html"> electrical interface</a></li>
+                <ul>
+                  <li>Drivers/Receivers</li>
+                  <li>Termination</li>
+                  <li>Impedance</li>
+                </ul>
+              </ol>
+            </div>
+            <p align="left">In
+              summary, the 1284 parallel port provides an easy to use, high performance
+              interface for portable products and printers.</p>
+            <p align="left">&nbsp;</p>
+</body></html>

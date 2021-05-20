@@ -1,0 +1,43 @@
+Parallel Interface Cable:
+Type 1284C to 1284C
+
+	Host		Name		Peripheral
+	1284C				1284C
+	------		-----		----------
+	1		Busy		1
+	19		Rtn		19
+	2		Select		2
+	20		Rtn		20
+	3		nAck		3
+	21		Rtn		21
+	4		nFault		4
+	22		Rtn		22
+	5		PE		5
+	23		Rtn		23
+	6		Data_1		6
+	24		Rtn		24
+	7		Data_2		7
+	25		Rtn		25
+	8		Data_3		8
+	26		Rtn		26
+	9		Data_4		9
+	27		Rtn		27
+	10		Data_5		10
+	28		Rtn		28
+	11		Data_6		11
+	29		Rtn		29
+	12		Data_7		12
+	30		Rtn		30
+	13		Data_8		13
+	31		Rtn		31
+	14		nInit		14
+	32		Rtn		32
+	15		nStrobe		15
+	33		Rtn		33
+	16		nSelectIn	16
+	34		Rtn		34
+	17		nAutoFeed	17
+	35		Rtn		35
+	18		Host High	18
+	36		Per. High	36
+	Shield				Shield

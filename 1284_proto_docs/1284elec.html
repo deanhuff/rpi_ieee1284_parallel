@@ -1,0 +1,111 @@
+<html><head>
+<title>Warp Nine Engineering - The IEEE 1284 Experts - IEEE 1284 Electrical Interface</title>
+</head>
+<body>
+        <div align="center">
+          <center>
+            <h1 align="left"><br>
+              <b>IEEE 1284 Electrical Interface</b></h1>
+            <p align="left">The
+              original parallel port did not have a defined electrical specification
+              that identified the driver, receiver, termination and capacitance
+              requirements in order to guarantee any compatibility between devices.
+              Host adapters and peripherals were built with any number of pull-up
+              values on the control lines, open collector or totem pole drivers
+              for the data and control lines, and most offensive of all, up to
+              10,000pF capacitors on the data and strobe lines. This type of design
+              variation makes it impossible to create a new interface protocol
+              without explicitly defining the required electrical parameters with
+              which to guarantee operation. </p>
+            <p align="left">The
+              1284 standard defines two levels of interface compatibility, Level
+              I and Level II. The Level I interface is defined for products that
+              are not going to operate at the high speed advanced modes, but need
+              to take advantage of the reverse channel capabilities of the standard.
+              The Level II interface is for devices that will operate in the advanced
+              modes, with long cables, and at the higher data rates. This discussion
+              will deal primarily with Level II interfaces. Please refer to the
+              standard for the full requirements for either a Level I or Level
+              II interface. </p>
+            <p align="left">The
+              requirements for the Level II drivers and receivers are defined
+              at the connector interface. The driver requirements are:
+            </p><div align="left">
+              <ol>
+                <li>The
+                  open circuit high-level output voltage shall not exceed +5.5V.
+                  </li>
+                <li>The
+                  open circuit low-level output voltage shall be no less than
+                  -0.5V. </li>
+                <li>The
+                  DC steady state, high-level output voltage shall be at least
+                  +2.4V at a source current of 14mA. </li>
+                <li>The
+                  DC steady state, low-level output voltage shall not exceed +0.4V
+                  at a sink current of 14mA. </li>
+                <li>The
+                  driver output impedance (Ro), measured at the connector, shall
+                  be 50 +/- 5 ohms at 1/2 the actual driver Voh minus Vol voltage.
+                  </li>
+                <li>The
+                  driver slew rate shall be 0.05-0.40 V/nS </li>
+              </ol>
+            </div>
+            <p align="left">Like
+              the driver requirements, the receiver requirements are defined at
+              the connector interface. The receiver requirements are:
+            </p><div align="left">
+              <ol>
+                <li>The
+                  receiver shall withstand peak input voltage transients between
+                  -2.0V and +7.0V without damage or improper operation. </li>
+                <li>The
+                  receiver high-level input threshold shall not exceed 2.0V </li>
+                <li>The
+                  receiver low-level input threshold shall be at least 0.8V. </li>
+                <li>The
+                  receiver shall provide at least 0.2V input hysteresis, but not
+                  more than 1.2V. </li>
+                <li>The
+                  receiver high-level sink current shall not exceed 20uA at +2.0V.
+                  </li>
+                <li>The
+                  receiver low-level input source current shall not exceed 20uA
+                  at +0.8V. </li>
+                <li>Circuit
+                  and stray capacitance shall not exceed 50pF. </li>
+              </ol>
+            </div>
+            <p align="left">Figure
+              1 shows the recommend termination for a driver/receiver pair. Ro
+              represents the output impedance at the connector. It is intended
+              that this impedance match the cable impedance so as to minimize
+              the noise caused by mismatched impedances. Depending upon the type
+              of driver used, a series resistor, Rs may be required to obtain
+              the correct impedance.</p>
+            <p align="center"><img src="./assets/lvl2fig1.gif" width="472" height="152"> </p>
+            <h3 align="center">Figure
+              1 -- Level II Driver/Receiver Pair Termination Example</h3>
+            <p>Figure
+              2 shows the recommended termination for a Level II transceiver pair,
+              such as the data lines.</p>
+            <p align="center"><img src="./assets/lvl2fig2.gif" width="500" height="220"> </p>
+            <h3 align="center">Figure
+              2 -- Level II Transceiver Termination Example</h3>
+            <p align="left">There
+              are products being introduced by companies such as Texas Instruments
+              and National that provide integrated solutions for a 1284 Level
+              II interface. These include active drivers and receivers as well
+              as resister sip networks. </p>
+            <p align="left">NOTE:
+              When ECP was first introduced Microsoft made a recommendation for
+              an electrical and termination requirement that was not consistent
+              with the 1284 specification. This included an AC terminator for
+              each of the lines. This suggestion has since been retracted and
+              the current recommendation is to use the interface defined in the
+              IEEE 1284 specification. </p>
+            <p>&nbsp;</p>
+          </center>
+        </div>
+      </body></html>
